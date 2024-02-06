@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +27,8 @@ public class Level1 extends AppCompatActivity {
     public int numLeft; // переменная для левой картинки + текст
     public int numRight; // переменная для правой картинки + текст
     Array array = new Array(); // создали новый объект из класса Array
-    Random random = new Random();
+    Random random = new Random(); // для генерации случайных чисел
+    public int count = 0; // счетчик правильных ответов
 
 
     @Override
@@ -119,6 +124,10 @@ public class Level1 extends AppCompatActivity {
             });
         // кнопка "Назад" - конец
 
+        // подключаем анимацию - начало
+        final Animation a = AnimationUtils.loadAnimation(Level1.this, R.anim.alpha);
+        // подключаем анимацию - конец
+
         numLeft = random.nextInt(10); // Генерируем случайное число от 0 до 9
         img_left.setImageResource(array.images1[numLeft]); // достаем из массива картинку
         text_left.setText(array.texts1[numLeft]); // достаем из массива текст
@@ -132,6 +141,29 @@ public class Level1 extends AppCompatActivity {
         // цикл проверяющий равенство чисел - конец
         img_right.setImageResource(array.images1[numRight]); //достаем из массива картинку
         text_right.setText(array.texts1[numRight]); // достаем из массива текст
+
+        // обрабатываем нажатие на левую картинку - начало
+        img_left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // условие касания картинки - начало
+                if (motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    // если коснулся картинку - начало
+                    img_right.setEnabled(false); // блокируем правую картинку
+                    if (numLeft>numRight){
+                        img_left.setImageResource(R.drawable.img_true);
+                    }else {
+                        img_left.setImageResource(R.drawable.img_false);
+                    }
+                    // если коснулся картинки - конец
+                }else if (motionEvent.getAction()==MotionEvent.ACTION_UP){
+                    // если отпустил палец - начало
+                }
+                // условие касания картинка - конец
+                return true;
+            }
+        });
+        // обрабатываем нажатие на левую картинку - конец
 
     }
     // системная кнопка "назад" - начало
