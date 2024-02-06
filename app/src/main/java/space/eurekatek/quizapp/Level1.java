@@ -14,14 +14,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class Level1 extends AppCompatActivity {
 
     Dialog dialog;
+
+    public int numLeft; // переменная для левой картинки + текст
+    public int numRight; // переменная для правой картинки + текст
+    Array array = new Array(); // создали новый объект из класса Array
+    Random random = new Random();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.universal);
+
+        TextView text_levels = findViewById(R.id.text_levels);
+        text_levels.setText(R.string.level1); // Установили текст
 
         final ImageView img_left = (ImageView)findViewById(R.id.img_left);
         // Код который скругляет углы левой картинки
@@ -32,6 +43,12 @@ public class Level1 extends AppCompatActivity {
         // Код который скругляет углы правой картинки
 
         img_right.setClipToOutline(true);
+
+        // Путь к левой TextView
+        final TextView text_left = findViewById(R.id.text_left);
+
+        // Путь к правой TextView
+        final TextView text_right = findViewById(R.id.text_right);
 
         // Развернуть игру на весь экран - начало
 
@@ -101,6 +118,21 @@ public class Level1 extends AppCompatActivity {
                 }
             });
         // кнопка "Назад" - конец
+
+        numLeft = random.nextInt(10); // Генерируем случайное число от 0 до 9
+        img_left.setImageResource(array.images1[numLeft]); // достаем из массива картинку
+        text_left.setText(array.texts1[numLeft]); // достаем из массива текст
+
+        numRight = random.nextInt(10);
+
+        // цикл проверяющий равенство чисел - начало
+        while (numLeft==numRight){
+            numRight =  random.nextInt(10);
+        }
+        // цикл проверяющий равенство чисел - конец
+        img_right.setImageResource(array.images1[numRight]); //достаем из массива картинку
+        text_right.setText(array.texts1[numRight]); // достаем из массива текст
+
     }
     // системная кнопка "назад" - начало
     @Override
