@@ -124,6 +124,17 @@ public class Level1 extends AppCompatActivity {
             });
         // кнопка "Назад" - конец
 
+
+        // массив для прогресса игры - начало
+        final int[] progress={
+                R.id.point1, R.id.point2, R.id.point3, R.id.point4, R.id.point5, R.id.point6,
+                R.id.point7, R.id.point8, R.id.point9, R.id.point10, R.id.point11,
+                R.id.point12, R.id.point13, R.id.point14, R.id.point15, R.id.point16,
+                R.id.point17, R.id.point18, R.id.point19, R.id.point20,
+        };
+
+        // массив для прогресса игры - конец
+
         // подключаем анимацию - начало
         final Animation a = AnimationUtils.loadAnimation(Level1.this, R.anim.alpha);
         // подключаем анимацию - конец
@@ -158,12 +169,153 @@ public class Level1 extends AppCompatActivity {
                     // если коснулся картинки - конец
                 }else if (motionEvent.getAction()==MotionEvent.ACTION_UP){
                     // если отпустил палец - начало
+                    if (numLeft>numRight){
+                        // если левая картинка больше
+                        if (count<20){
+                            count=count+1;
+                        }
+                        // закрашиваем прогресс серым цветом - начало
+                        for (int i=0; i<20; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points);
+                        }
+                        // закрашиваем прогресс серым цветом - конец
+                        // определяем правильные ответы и закрашиваем зеленым - начало
+                        for (int i=0; i<count; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points_green);
+                        }
+                        // определяем правильные ответы и закрашиваем зеоным - конец
+                    }else {
+                        // если левая картинка меньше
+                        if (count>0){
+                            if (count==1){
+                                count=0;
+                            }else {
+                                count=count-2;
+                            }
+                        }
+                        // закрашиваем прогресс серым цветом - начало
+                        for (int i=0; i<19; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points);
+                        }
+                        // закрашиваем прогресс серым цветом - конец
+                        // определяем правильные ответы и закрашиваем зеленым - начало
+                        for (int i=0; i<count; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points_green);
+                        }
+                        // определяем правильные ответы и закрашиваем зеоным - конец
+                    }
+                    // если отпустил палец - конец
+                    if (count==20) {
+                        // ВЫХОД ИЗ УРОВНЯ
+                    }else{
+                        numLeft = random.nextInt(10); // Генерируем случайное число от 0 до 9
+                        img_left.setImageResource(array.images1[numLeft]); // достаем из массива картинку
+                        img_left.startAnimation(a);
+                        text_left.setText(array.texts1[numLeft]); // достаем из массива текст
+                        numRight = random.nextInt(10);
+                        // цикл проверяющий равенство чисел - начало
+                        while (numLeft==numRight){
+                        numRight =  random.nextInt(10);
+                        }
+                        // цикл проверяющий равенство чисел - конец
+                        img_right.setImageResource(array.images1[numRight]); //достаем из массива картинку
+                        img_right.startAnimation(a);
+                        text_right.setText(array.texts1[numRight]); // достаем из массива текст
+
+                        img_right.setEnabled(true); // включаем обратно правую картинку
+                        }
                 }
                 // условие касания картинка - конец
                 return true;
             }
         });
         // обрабатываем нажатие на левую картинку - конец
+
+        // обрабатываем нажатие на правую картинку - начало
+        img_right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // условие касания картинки - начало
+                if (motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    // если коснулся картинку - начало
+                    img_left.setEnabled(false); // блокируем левую картинку
+                    if (numLeft<numRight){
+                        img_right.setImageResource(R.drawable.img_true);
+                    }else {
+                        img_right.setImageResource(R.drawable.img_false);
+                    }
+                    // если коснулся картинки - конец
+                }else if (motionEvent.getAction()==MotionEvent.ACTION_UP){
+                    // если отпустил палец - начало
+                    if (numLeft<numRight){
+                        // если правая картинка больше
+                        if (count<20){
+                            count=count+1;
+                        }
+                        // закрашиваем прогресс серым цветом - начало
+                        for (int i=0; i<20; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points);
+                        }
+                        // закрашиваем прогресс серым цветом - конец
+                        // определяем правильные ответы и закрашиваем зеленым - начало
+                        for (int i=0; i<count; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points_green);
+                        }
+                        // определяем правильные ответы и закрашиваем зеоным - конец
+                    }else {
+                        // если правая картинка меньше
+                        if (count>0){
+                            if (count==1){
+                                count=0;
+                            }else {
+                                count=count-2;
+                            }
+                        }
+                        // закрашиваем прогресс серым цветом - начало
+                        for (int i=0; i<19; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points);
+                        }
+                        // закрашиваем прогресс серым цветом - конец
+                        // определяем правильные ответы и закрашиваем зеленым - начало
+                        for (int i=0; i<count; i++){
+                            TextView tv = findViewById(progress[i]);
+                            tv.setBackgroundResource(R.drawable.style_points_green);
+                        }
+                        // определяем правильные ответы и закрашиваем зеоным - конец
+                    }
+                    // если отпустил палец - конец
+                    if (count==20) {
+                        // ВЫХОД ИЗ УРОВНЯ
+                    }else{
+                        numLeft = random.nextInt(10); // Генерируем случайное число от 0 до 9
+                        img_left.setImageResource(array.images1[numLeft]); // достаем из массива картинку
+                        img_left.startAnimation(a);
+                        text_left.setText(array.texts1[numLeft]); // достаем из массива текст
+                        numRight = random.nextInt(10);
+                        // цикл проверяющий равенство чисел - начало
+                        while (numLeft==numRight){
+                            numRight =  random.nextInt(10);
+                        }
+                        // цикл проверяющий равенство чисел - конец
+                        img_right.setImageResource(array.images1[numRight]); //достаем из массива картинку
+                        img_right.startAnimation(a);
+                        text_right.setText(array.texts1[numRight]); // достаем из массива текст
+
+                        img_left.setEnabled(true); // включаем обратно левую картинку
+                    }
+                }
+                // условие касания картинка - конец
+                return true;
+            }
+        });
+        // обрабатываем нажатие на правую картинку - конец
 
     }
     // системная кнопка "назад" - начало
