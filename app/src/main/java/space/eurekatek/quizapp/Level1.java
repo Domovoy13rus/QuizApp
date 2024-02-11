@@ -114,6 +114,7 @@ public class Level1 extends AppCompatActivity {
         dialogEnd.requestWindowFeature(Window.FEATURE_NO_TITLE); // скрываем заголовок диалогового окна
         dialogEnd.setContentView(R.layout.dialogend); // путь к макету диалогового окна
         dialogEnd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // прозрачный фон диалогового окна
+        dialogEnd.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialogEnd.setCancelable(false); // диалог нельзя закрыть кнопкой "Назад"
 
         // кнопка которая закрывает диалоговое окно - начало
